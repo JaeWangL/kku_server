@@ -1,0 +1,98 @@
+type Query {
+    """
+    반려동물 동반이 가능한 상점 정보를 불러옵니다
+    """
+    shops: [Shop!]!
+
+
+    """
+    사용자의 현재 위치로부터 가까운 상점 정보를 불러옵니다
+    사용자의 위치는 위도와 경도로부터 계산됩니다
+    """
+    nearestShops(latitude: Float!, longitude: Float!, distanceKm: Int = 5): [Shop!]!
+}
+
+"""
+반려동물 동반가능 공간
+Example: 전체, 야외(테라스 등), 실내
+"""
+enum PetAllowedLocationEnum {
+    All
+    Outdoor
+    Indoor
+}
+
+"""
+상점 원본데이터 정보
+"""
+type ShopSource {
+    """
+    상점 원본데이터 URL
+    Example: https://pcmap.place.naver.com/restaurant/1055942194/home
+    """
+    sourceUrl: String!
+}
+
+"""
+반려동뭉 동반이 가능한 상점 정보
+"""
+type Shop {
+    """
+    상점 고유ID
+    Examle: 01HHSA0B50M8PNV5JDH7BWZ5X2
+    """
+    id: ID!
+
+    """
+    반려동물 동반가능 공간
+    Example: 전체, 야외(테라스 등), 실내
+    """
+    petAllowedLocations: PetAllowedLocationEnum!
+
+    """
+    상점 이름
+    Example: 쉐이크쉑 서면점네이버페이
+    """
+    name: String!
+
+    """
+    상점 연락처
+    Example: 051-520-3707
+    """
+    tel: String!
+
+    """
+    상점 구주소
+    Example: 부산광역시 부산진구 부전동 227-2 삼정타워 1층
+    """
+    address: String!
+
+    """
+    상점 신주소
+    Example: 부산광역시 부산진구 중앙대로 672 삼정타워 1층
+    """
+    addressLoad: String!
+
+    """
+    상점 위치 위도
+    Example: 35.1529881
+    """
+    latitude: Float!
+
+    """
+    상점 위치 경도
+    Example: 129.0596393
+    """
+    longitude: Float!
+
+    """
+    상점 대표 이미지 리스트
+    Example: ["https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210107_152%2F1610009484928eqmPY_JPEG%2F2019_0828_SSB5729_1_HR.jpg"]
+    """
+    thumbnails: [String!]!
+
+    """
+    상점 원본데이터 정보
+    """
+    source: ShopSource!
+}
